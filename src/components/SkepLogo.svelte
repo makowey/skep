@@ -3,7 +3,7 @@
 
         <!-- Symbol -->
         <symbol id="s-text">
-            <text text-anchor="middle" x="50%" y="50%" dy=".35em">
+            <text text-anchor="middle" x="50%" y="50%" dy=".25em">
                 SKEP
             </text>
         </symbol>
@@ -22,7 +22,7 @@
     /* Main stuff */
     .text {
         fill: none;
-        stroke-width: 6;
+        stroke-width: 3;
         stroke-linejoin: round;
         stroke-dasharray: 70 330;
         stroke-dashoffset: 0;
@@ -73,7 +73,7 @@
     }
 
     .content {
-        font: 600 10.5em/1 'Menlo', Impact;
+        font: 600 10.5rem/1 'Menlo';
     }
 
     svg {
