@@ -40,12 +40,12 @@
 
     <LeftMenu>
         <Navbar bind:showCredits/>
+        <p class="text-center text-info text-sm mt-2">SvelteKit E-commerce Platform</p>
 
         <main class="container mx-auto mt-5 bg-base-200/100 h-screen max-h-[calc(60%-3rem)] rounded border-2 border-accent-content/20">
             <!-- +page.svelte is rendered in this <slot> -->
             <slot/>
         </main>
-        <p class="text-center text-info text-sm mt-2">SvelteKit E-commerce Platform</p>
 
         <Footer bind:theme/>
     </LeftMenu>
