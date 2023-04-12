@@ -24,7 +24,7 @@
     // Create a store and update it when necessary...
     $: settings.set({...configs, "theme": theme})
     $: if (browser && initialized) {
-        localStorage.setItem('bConfigs', JSON.stringify($settings));
+        localStorage.setItem('configs', JSON.stringify($settings));
     }
     // ...and add it to the context for child components to access
     $: setContext('settings', $settings)
