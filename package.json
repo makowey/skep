@@ -1,0 +1,38 @@
+{
+  "name": "skep",
+  "description": "SvelteKit E-Commerce Platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build-dev": "vite build --mode development",
+    "start": "vite --host --port $PORT preview"
+  },
+  "devDependencies": {
+    "@iconify/svelte": "^3.1.0",
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/kit": "^1.5.0",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.14",
+    "postcss-load-config": "^4.0.1",
+    "svelte": "^3.54.0",
+    "svelte-preprocess": "^4.10.7",
+    "tailwind-scrollbar": "^3.0.0",
+    "tailwindcss": "^3.1.5",
+    "vite": "^4.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "classnames": "^2.3.2",
+    "daisyui": "^2.51.3",
+    "dotenv": "^16.0.3",
+    "mongodb": "^5.1.0",
+    "pnpm": "^7.30.3",
+    "redis": "^4.6.5",
+    "svelte-heros": "^3.1.0",
+    "svelte-mp3": "^1.2.0"
+  }
+}
