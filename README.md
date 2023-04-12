@@ -1,7 +1,9 @@
 # SKEP
 SvelteKit E-Commerce Platform 
 
-![alt text](https://github.com/makowey/skep/blob/main/static/favicon.png?raw=true)
+<div style="text-align: center">
+    <img src="https://github.com/makowey/skep/blob/main/static/favicon.png?raw=true" style=" width:175px; height:175px" alt="SKEP">
+</div>
 
 ### Theme
  DaisyUI component, Tailwind CSS
