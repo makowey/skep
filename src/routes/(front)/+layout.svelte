@@ -11,12 +11,13 @@
     const settings = writable({});
     let initialized = false;
     let showCredits = false;
+    const defaultTheme = 'dark';
 
     let theme;
     let configs = {}
     $: if (!initialized && browser) {
-        configs = JSON.parse(localStorage?.getItem('bConfigs') || JSON.stringify({theme: 'retro'}));
-        theme = configs.theme || 'retro';
+        configs = JSON.parse(localStorage?.getItem('configs') || JSON.stringify({theme: defaultTheme}));
+        theme = configs.theme || defaultTheme;
         console.log("Theme onMount()", theme);
         initialized = true;
     }
@@ -49,9 +50,9 @@
 
         <Credits bind:showCredits/>
     </nav>
-
     <LeftMenu>
-        <main class="m-20 bg-base-200/100 h-screen rounded border-2 border-accent-content/20">
+        <p class="text-center text-info text-sm mt-2">SvelteKit E-commerce Platform</p>
+        <main class="ml-20 mr-20 mt-5 bg-base-200/100 h-screen max-h-[calc(80%-3rem)] rounded border-2 border-accent-content/20">
             <!-- +page.svelte is rendered in this <slot> -->
             <slot/>
         </main>
