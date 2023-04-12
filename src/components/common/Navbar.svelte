@@ -1,6 +1,7 @@
 <script>
     import Credits from "./Credits.svelte";
     import Icon from "@iconify/svelte";
+    import SkepLogo from "../SkepLogo.svelte";
 
     export let showCredits;
 </script>
@@ -10,8 +11,7 @@
         <Icon icon="ic:round-menu" width="15"/>
     </label>
 
-    <a data-sveltekit-reload href="#" class="text-7xl max-md:text-5xl font-bold font-Poppins"
-       id="title">SKEP</a>
+    <a data-sveltekit-reload href="#" id="title"><SkepLogo/></a>
     <div class="btn btn-md btn-ghost drawer-button relative float-right text-white"
          on:click={() => showCredits = !showCredits}>
         <Icon icon="material-symbols:data-info-alert" width="25"/>

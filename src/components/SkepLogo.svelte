@@ -1,9 +1,9 @@
 <div class="content">
-    <svg viewBox="0 0 700 300">
+    <svg viewBox="0 0 700 200">
 
         <!-- Symbol -->
         <symbol id="s-text">
-            <text text-anchor="middle" x="50%" y="50%" dy=".25em">
+            <text text-anchor="middle" x="50%" y="50%" dy=".35em">
                 SKEP
             </text>
         </symbol>
@@ -73,15 +73,13 @@
     }
 
     .content {
-        font: 600 10.5rem/1 'Menlo';
+        font: 500 10.5rem/1 'Menlo';
     }
 
     svg {
-        width: 90%;
-        margin: 0 auto 50px;
+        width: 80%;
+        margin: 0 auto;
         display: block;
         text-transform: uppercase;
     }
-
-    /*# sourceMappingURL=style12.css.map */
 </style>

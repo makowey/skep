@@ -13,6 +13,7 @@ const config = {
     },
 
     plugins: [
+        require("@tailwindcss/typography"),
         require("daisyui"),
         require('tailwind-scrollbar')
     ],
@@ -25,7 +26,7 @@ const config = {
         rtl: false,
         prefix: "",
         darkTheme: "dark",
-        themes: ["coffee", "cmyk",  "dark", "retro", "wireframe"]
+        themes: ["coffee", "cmyk", "dark", "retro", "wireframe"]
     },
     darkMode: 'class',
 };

@@ -11,7 +11,7 @@
     </div>
     <div class="drawer-side">
         <label for="left-menu" class="drawer-overlay"></label>
-        <ul class="menu p-4 w-36 bg-base-100 text-base-content">
+        <ul class="menu rounded-box p-4 w-36 bg-base-100 text-base-content">
             <!-- Sidebar content here -->
             <li class="{active === 'home' ? 'btn-secondary' : ''} mt-2" on:click={() => active = 'home'}>
                 <a href="/">
