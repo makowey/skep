@@ -16,6 +16,7 @@
             <Icon icon="mdi:theme-light-dark"/> {theme}</label>
         <ul tabindex="0"
             class="dropdown-content menu p-1 shadow bg-base-100 rounded-box w-24 right-2 text-xs text-accent-content/90">
+            <li><a href="#cmyk" on:click={() => theme = 'cmyk'}>cmyk</a></li>
             <li><a href="#retro" on:click={() => theme = 'retro'}>retro</a></li>
             <li><a href="#wireframe" on:click={() => theme = 'wireframe'}>wireframe</a></li>
             <li><a href="#dark" on:click={() => theme = 'dark'}>dark</a></li>

@@ -25,7 +25,7 @@ const config = {
         rtl: false,
         prefix: "",
         darkTheme: "dark",
-        themes: ["coffee", "dark", "retro", "wireframe"]
+        themes: ["coffee", "cmyk",  "dark", "retro", "wireframe"]
     },
     darkMode: 'class',
 };

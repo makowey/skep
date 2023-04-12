@@ -13,13 +13,13 @@
         <label for="left-menu" class="drawer-overlay"></label>
         <ul class="menu p-4 w-36 bg-base-100 text-base-content">
             <!-- Sidebar content here -->
-            <li class="{active === 'home' ? 'btn-active' : ''} mt-2" on:click={() => active = 'home'}>
+            <li class="{active === 'home' ? 'btn-secondary' : ''} mt-2" on:click={() => active = 'home'}>
                 <a href="/">
                     <Icon icon="line-md:home-md-twotone" class="hover:animate-bounce"/>
                     Home
                 </a>
             </li>
-            <li class="{active === 'ping' ? 'btn-active' : ''}" on:click={() => active = 'ping'}>
+            <li class="{active === 'ping' ? 'btn-secondary' : ''}" on:click={() => active = 'ping'}>
                 <a href="/ping">
                     <Icon icon="game-icons:ping-pong-bat" class="hover:animate-bounce"/>
                     Ping
