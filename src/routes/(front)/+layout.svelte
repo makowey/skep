@@ -1,12 +1,12 @@
 <script>
-    import "../app.postcss";
-    import {fly} from "svelte/transition";
+    import "../../app.postcss";
     import {setContext} from 'svelte';
     import {writable} from 'svelte/store';
     import {browser} from "$app/environment";
     import Icon from "@iconify/svelte";
     import {goto} from "$app/navigation";
-    import Credits from "../components/common/Credits.svelte";
+    import Credits from "../../components/common/Credits.svelte";
+    import LeftMenu from "../../components/common/LeftMenu.svelte";
 
     const settings = writable({});
     let initialized = false;
@@ -50,10 +50,12 @@
         <Credits bind:showCredits/>
     </nav>
 
-    <main>
-        <!-- +page.svelte is rendered in this <slot> -->
-        <slot/>
-    </main>
+    <LeftMenu>
+        <main class="m-20 bg-base-200/100 h-screen rounded border-2 border-accent-content/20">
+            <!-- +page.svelte is rendered in this <slot> -->
+            <slot/>
+        </main>
+    </LeftMenu>
     <footer class="fixed footer-center -bottom-1 text-white z-10 w-full bg-stone-800 h-10">
         <button on:click={() => goto("https://discord.gg/Vu5bUHSEyE")}
                 class="btn btn-xs cursor-pointer relative top-1.5 float-left left-1.5">
@@ -62,7 +64,8 @@
         <div class="dropdown dropdown-top float-right  bottom-0.5">
             <label tabindex="0" class="btn btn-sm m-1 capitalize text-xs">
                 <Icon icon="mdi:theme-light-dark"/> {theme}</label>
-            <ul tabindex="0" class="dropdown-content menu p-1 shadow bg-base-100 rounded-box w-24 right-2 text-xs text-accent-content/90">
+            <ul tabindex="0"
+                class="dropdown-content menu p-1 shadow bg-base-100 rounded-box w-24 right-2 text-xs text-accent-content/90">
                 <li><a href="#retro" on:click={() => theme = 'retro'}>retro</a></li>
                 <li><a href="#wireframe" on:click={() => theme = 'wireframe'}>wireframe</a></li>
                 <li><a href="#dark" on:click={() => theme = 'dark'}>dark</a></li>

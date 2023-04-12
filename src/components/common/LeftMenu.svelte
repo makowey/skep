@@ -20,7 +20,7 @@
                 </a>
             </li>
             <li class="{active === 'ping' ? 'btn-active' : ''}" on:click={() => active = 'ping'}>
-                <a href="/">
+                <a href="/ping">
                     <Icon icon="game-icons:ping-pong-bat" class="hover:animate-bounce"/>
                     Ping
                 </a>
