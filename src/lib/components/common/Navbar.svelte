@@ -9,14 +9,14 @@
 </script>
 
 <nav class="header w-full z-10 bg-stone-800">
-    <label for="left-menu" class="btn btn-md btn-ghost drawer-button relative float-left text-white">
-        <Icon icon="ic:round-menu" width="15"/>
+    <label for="left-menu" class="btn btn-md btn-ghost drawer-button absolute left-1.5 text-white">
+        <Icon icon="ic:round-menu" width="45"/>
     </label>
 
     <a data-sveltekit-reload href="#" id="title">
         <SvgLogo text={headerName}/>
     </a>
-    <div class="btn btn-md btn-ghost drawer-button relative float-right text-white"
+    <div class="btn btn-md btn-ghost drawer-button absolute right-1.5 text-white"
          on:click={() => showCredits = !showCredits}>
         <Icon icon="material-symbols:data-info-alert" width="25"/>
     </div>
