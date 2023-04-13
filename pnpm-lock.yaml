@@ -28,6 +28,9 @@ dependencies:
   svelte-heros:
     specifier: ^3.1.0
     version: 3.1.0(svelte@3.54.0)
+  svelte-infinite-scroll:
+    specifier: ^2.0.1
+    version: 2.0.1
   svelte-mp3:
     specifier: ^1.2.0
     version: 1.2.0
@@ -1320,6 +1323,10 @@ packages:
     dependencies:
       svelte: 3.54.0
     dev: true
+
+  /svelte-infinite-scroll@2.0.1:
+    resolution: {integrity: sha512-goTHCfOHRDCs8C5MeSuIc6LlAQ8zVQ+M4Y3LyvrDjx5rqSSxSrdCuQwIyWYNcO6j6/mnqRro3QB64ClBzfn+Wg==}
+    dev: false
 
   /svelte-mp3@1.2.0:
     resolution: {integrity: sha512-YHdIcHi5pThsPmIEiJuOQlycyAFy3QAudV9/BjrdzkmjufG1RYTw/QqDvNUnYX3GaJtmYBt5cTU7BdWKM86zmA==}
