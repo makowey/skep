@@ -1,5 +1,3 @@
-// /api/newsletter GET
-
 export const GET = async (event) => {
     const options = {
         status: 200, headers: {

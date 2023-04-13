@@ -51,7 +51,7 @@
             <Navbar bind:showCredits headerName={data.appName}/>
             <p class="text-center text-info text-sm mt-2">{data.appDescription}</p>
 
-            <main class="container mx-auto mt-5 bg-base-200/100 h-screen max-h-[calc(60%-3rem)] rounded border-2 border-accent-content/20">
+            <main class="container mx-auto mt-5 bg-base-200/100 h-screen max-h-[calc(60%-3rem)] rounded border-2 border-accent-content/20 overflow-y-scroll shadow-2xl">
                 <!-- +page.svelte is rendered in this <slot> -->
                 <slot/>
             </main>
