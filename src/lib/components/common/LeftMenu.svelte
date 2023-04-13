@@ -24,7 +24,7 @@
                 <li class="{active === menuEntry.name ? 'btn-secondary' : ''} mt-2"
                     on:click={() => active = menuEntry.name}>
                     <a href={menuEntry.url}>
-                        <Icon icon="line-md:home-md-twotone" class="hover:animate-bounce"/>
+                        <Icon icon={menuEntry.icon} class="hover:animate-bounce"/>
                         {menuEntry.name}
                     </a>
                 </li>

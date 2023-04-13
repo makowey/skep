@@ -1,11 +1,13 @@
 export const menuEntries = [
     {
         url: "/",
-        name: "Home"
+        name: "Home",
+        icon: "line-md:home-md-twotone"
     },
     {
         url: "/ping",
-        name: "Ping"
+        name: "Ping",
+        icon: "game-icons:ping-pong-bat"
     }
 ];
 
