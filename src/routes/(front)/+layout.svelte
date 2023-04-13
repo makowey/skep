@@ -1,16 +1,16 @@
 <script>
     import "../../app.postcss";
     import {setContext} from 'svelte';
-    import {writable} from 'svelte/store';
     import {browser} from "$app/environment";
-    import LeftMenu from "../../components/common/LeftMenu.svelte";
-    import Footer from "../../components/common/Footer.svelte";
-    import Navbar from "../../components/common/Navbar.svelte";
+    import LeftMenu from "$lib/components/common/LeftMenu.svelte";
+    import Footer from "$lib/components/common/Footer.svelte";
+    import Navbar from "$lib/components/common/Navbar.svelte";
+    import {settings} from "$lib/store";
+    import menuEntries from "$lib/menu";
 
-    const settings = writable({});
     let initialized = false;
     let showCredits = false;
-    const defaultTheme = 'dark';
+    const defaultTheme = 'retro';
 
     let theme;
     let configs = {}
@@ -38,8 +38,8 @@
 
 <section data-theme={ theme }>
 
-    <LeftMenu>
-        <Navbar bind:showCredits/>
+    <LeftMenu {menuEntries}>
+        <Navbar bind:showCredits headerName="SKEP"/>
         <p class="text-center text-info text-sm mt-2">SvelteKit E-commerce Platform</p>
 
         <main class="container mx-auto mt-5 bg-base-200/100 h-screen max-h-[calc(60%-3rem)] rounded border-2 border-accent-content/20">

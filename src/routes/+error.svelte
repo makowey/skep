@@ -1,6 +1,6 @@
 <script>
     import {page} from '$app/stores';
-    import LeftMenu from "../components/common/LeftMenu.svelte";
+    import LeftMenu from "$lib/components/common/LeftMenu.svelte";
 </script>
 
 <LeftMenu>

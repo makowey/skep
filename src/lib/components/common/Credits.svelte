@@ -1,9 +1,10 @@
 <script>
-    import credits from "$lib/app";
-    import {fade, fly} from "svelte/transition";
+    import credits from "$lib/app.js";
+    import {fly} from "svelte/transition";
 
     export let showCredits = true;
     let infos = credits();
+    export let appName = '@Name';
 </script>
 
 {#if showCredits}
@@ -23,7 +24,7 @@
                     {/each}
                 </ul>
             </div>
-            <p class="-bottom-1 left-1 text-accent-content text-sm italic animate-pulse">SKEP - {new Date().getFullYear()}</p>
+            <p class="-bottom-1 left-1 text-accent-content text-sm italic animate-pulse">{appName} - {new Date().getFullYear()}</p>
         </label>
     </label>
 {/if}

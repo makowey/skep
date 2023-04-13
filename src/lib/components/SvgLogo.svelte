@@ -1,10 +1,13 @@
+<script>
+    export let text = 'name';
+</script>
 <div class="content">
     <svg viewBox="0 0 700 200">
 
         <!-- Symbol -->
         <symbol id="s-text">
             <text text-anchor="middle" x="50%" y="50%" dy=".35em">
-                SKEP
+                {text}
             </text>
         </symbol>
 

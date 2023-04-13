@@ -1,6 +1,7 @@
 <script>
     import {goto} from "$app/navigation";
     import Icon from "@iconify/svelte";
+    import {themes} from "$lib/themes.js";
 
     export let theme;
 </script>
@@ -41,11 +42,9 @@
                 <Icon icon="mdi:theme-light-dark"/>{theme}</label>
             <ul tabindex="0"
                 class="dropdown-content menu p-1 shadow bg-base-100 rounded-box w-24 right-2 text-xs text-accent-content/90">
-                <li><a href="#cmyk" on:click={() => theme = 'cmyk'}>cmyk</a></li>
-                <li><a href="#retro" on:click={() => theme = 'retro'}>retro</a></li>
-                <li><a href="#wireframe" on:click={() => theme = 'wireframe'}>wireframe</a></li>
-                <li><a href="#dark" on:click={() => theme = 'dark'}>dark</a></li>
-                <li><a href="#coffee" on:click={() => theme = 'coffee'}>coffee</a></li>
+                {#each themes as tName}
+                    <li><a href="#{tName}" on:click={() => theme = tName}>{tName}</a></li>
+                {/each}
             </ul>
         </div>
     </div>
