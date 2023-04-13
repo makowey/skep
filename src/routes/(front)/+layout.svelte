@@ -2,11 +2,13 @@
     import "../../app.postcss";
     import {setContext} from 'svelte';
     import {browser} from "$app/environment";
+
+    import {settings} from "$lib/store";
+    import menuEntries from "$lib/menu";
+
     import LeftMenu from "$lib/components/common/LeftMenu.svelte";
     import Footer from "$lib/components/common/Footer.svelte";
     import Navbar from "$lib/components/common/Navbar.svelte";
-    import {settings} from "$lib/store";
-    import menuEntries from "$lib/menu";
 
     let initialized = false;
     let showCredits = false;

@@ -1,6 +1,7 @@
 <script>
-    import {goto} from "$app/navigation";
     import Icon from "@iconify/svelte";
+
+    import {goto} from "$app/navigation";
     import {themes} from "$lib/themes.js";
 
     export let theme;

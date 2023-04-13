@@ -1,6 +1,7 @@
 <script>
-    import Credits from "$lib/components/common/Credits.svelte";
     import Icon from "@iconify/svelte";
+
+    import Credits from "$lib/components/common/Credits.svelte";
     import SvgLogo from "$lib/components/SvgLogo.svelte";
 
     export let showCredits;
