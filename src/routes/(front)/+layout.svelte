@@ -8,8 +8,6 @@
     import LeftMenu from "$lib/components/common/LeftMenu.svelte";
     import Footer from "$lib/components/common/Footer.svelte";
     import Navbar from "$lib/components/common/Navbar.svelte";
-    import {navigating} from "$app/stores";
-    import Loading from "$lib/components/Loading.svelte";
 
     let initialized = false;
     let showCredits = false;
@@ -19,6 +17,8 @@
     export let data;
 
     let theme;
+    let activeMenuEntry = 'Home';
+
     let configs = {}
     $: if (!initialized && browser) {
         configs = JSON.parse(localStorage?.getItem('configs') || JSON.stringify({theme: defaultTheme}));
@@ -35,6 +35,7 @@
     // ...and add it to the context for child components to access
     $: setContext('settings', $settings)
     $: console.log(`Default settings: ${JSON.stringify($settings)}`)
+
 </script>
 
 <svelte:head>
@@ -44,20 +45,16 @@
 
 <section data-theme={ theme }>
 
-    {#if $navigating}
-        <Loading/>
-    {:else}
-        <LeftMenu menuEntries={data.menuEntries}>
-            <Navbar bind:showCredits headerName={data.appName}/>
-            <p class="text-center text-info text-sm mt-2">{data.appDescription}</p>
+    <LeftMenu menuEntries={data.menuEntries} bind:active={activeMenuEntry}>
+        <Navbar bind:showCredits headerName={data.appName}/>
+        <p class="text-center text-info text-sm mt-2">{data.appDescription}</p>
 
-            <main class="container mx-auto mt-5 bg-base-200/100 h-screen max-h-[calc(60%-3rem)] rounded border-2 border-accent-content/20 overflow-y-scroll shadow-2xl">
-                <!-- +page.svelte is rendered in this <slot> -->
-                <slot/>
-            </main>
+        <main class="container mx-auto mt-5 bg-base-200/100 h-screen max-h-[calc(60%-3rem)] rounded border-2 border-accent-content/20 overflow-y-scroll shadow-2xl">
+            <!-- +page.svelte is rendered in this <slot> -->
+            <slot/>
+        </main>
 
-            <Footer bind:theme/>
-        </LeftMenu>
-    {/if}
+        <Footer bind:theme/>
+    </LeftMenu>
 
 </section>
