@@ -3,8 +3,8 @@
     import LeftMenu from "$lib/components/common/LeftMenu.svelte";
 </script>
 
-<LeftMenu>
-    <main>
+<section data-theme="dark" class="m-auto">
+    <LeftMenu>
         <div class="flex flex-auto text-lime-50">
             <div class="center">
                 <div class="m-auto left-1/4 absolute">
@@ -16,8 +16,8 @@
                 </div>
             </div>
         </div>
-    </main>
-</LeftMenu>
+    </LeftMenu>
+</section>
 
 
 

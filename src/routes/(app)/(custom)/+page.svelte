@@ -1,5 +1,8 @@
 <script>
     import {fade} from "svelte/transition";
+    import {subtitle} from "$lib/store";
+
+    subtitle.set(true);
 </script>
 
 <slot>

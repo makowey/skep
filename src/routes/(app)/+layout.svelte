@@ -1,13 +1,14 @@
 <script>
     import "../../app.postcss";
-    import {setContext} from 'svelte';
+    import {onMount, setContext} from 'svelte';
     import {browser} from "$app/environment";
 
-    import {settings} from "$lib/store";
+    import {settings, subtitle} from "$lib/store.js";
 
     import LeftMenu from "$lib/components/common/LeftMenu.svelte";
     import Footer from "$lib/components/common/Footer.svelte";
     import Navbar from "$lib/components/common/Navbar.svelte";
+    import menuEntries from "$lib/menu.js";
 
     let initialized = false;
     let showCredits = false;
@@ -17,7 +18,12 @@
     export let data;
 
     let theme;
-    let activeMenuEntry = 'Home';
+    let activeMenuEntry;
+
+    onMount(() => {
+        if (browser) activeMenuEntry = menuEntries.find(entry => entry.url === window.location.pathname).name || 'Home';
+        console.log(activeMenuEntry)
+    });
 
     let configs = {}
     $: if (!initialized && browser) {
@@ -34,8 +40,6 @@
     }
     // ...and add it to the context for child components to access
     $: setContext('settings', $settings)
-    $: console.log(`Default settings: ${JSON.stringify($settings)}`)
-
 </script>
 
 <svelte:head>
@@ -47,12 +51,10 @@
 
     <LeftMenu menuEntries={data.menuEntries} bind:active={activeMenuEntry}>
         <Navbar bind:showCredits headerName={data.appName}/>
-        <p class="text-center text-info text-sm mt-2">{data.appDescription}</p>
+        <p class="text-center text-info text-sm mt-2 {$subtitle ? '' : 'hidden'}">{data.appDescription}</p>
 
-        <main class="container mx-auto mt-5 bg-base-200/100 h-screen max-h-[calc(60%-3rem)] rounded border-2 border-accent-content/20 overflow-y-scroll shadow-2xl">
-            <!-- +page.svelte is rendered in this <slot> -->
-            <slot/>
-        </main>
+        <!-- ++page@(app).svelte is rendered in this <slot> -->
+        <slot/>
 
         <Footer bind:theme/>
     </LeftMenu>

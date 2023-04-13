@@ -1,5 +1,7 @@
 <script>
 
+    import {subtitle} from "$lib/store";
+
     let message = '';
     let key = '';
 
@@ -16,7 +18,7 @@
             })
     }
 
-    console.log("PING>...")
+    subtitle.set(true);
 </script>
 
 <div id="flex flex-col h-screen justify-center items-center">

@@ -5,6 +5,11 @@ export const menuEntries = [
         icon: "line-md:home-md-twotone"
     },
     {
+      url: "/landing",
+      name: "Landing",
+      icon: "ic:twotone-store-mall-directory"
+    },
+    {
         url: "/ping",
         name: "Ping",
         icon: "game-icons:ping-pong-bat"
