@@ -15,7 +15,7 @@
     };
 </script>
 
-<div class="card w-96 h-96 bg-base-100 shadow-xl">
+<div class="card w-80 h-96 bg-base-100 shadow-xl">
     <figure><img src="{article.images[0]}" alt="{article.title}" class="w-full image-full"/></figure>
     <div class="card-body">
         <h2 class="card-title">
@@ -25,6 +25,7 @@
                 <div class="badge badge-secondary">NEW</div>
             {/if}
         </h2>
+        <div class="absolute right-3.5">${article.price}</div>
         <p>{article.description}</p>
         <div class="card-actions justify-end">
             <div class="badge badge-outline hover:bg-accent-focus/70 cursor-pointer">{article.brand}</div>

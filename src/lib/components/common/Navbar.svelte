@@ -18,7 +18,7 @@
     </a>
     <div class="btn btn-md btn-ghost drawer-button absolute right-1.5 text-white"
          on:click={() => showCredits = !showCredits}>
-        <Icon icon="arcticons:model3d" width="35"/>
+        <Icon icon="arcticons:model3d" width="35" class="animate-bounce"/>
     </div>
 
     <Credits bind:showCredits appName={headerName}/>
