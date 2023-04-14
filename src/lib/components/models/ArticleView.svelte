@@ -20,7 +20,7 @@
 
 <div class="container mx-auto my-8 flex flex-col lg:flex-row">
     <!-- Product Image Panel -->
-    <div class="w-[calc(80%)] h-auto">
+    <div class="w-[calc(90%)] h-auto">
         <Carousel {images} />
     </div>
 
