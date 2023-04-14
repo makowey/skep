@@ -29,7 +29,7 @@
         </div>
         <div class="flex items-center justify-between">
             <span class="font-medium">${article.price}</span>
-            <button class="bg-accent-content/70 hover:bg-accent-content/50 text-white font-bold py-2 px-4 rounded">Buy Now</button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Buy Now</button>
         </div>
     </div>
 </div>
