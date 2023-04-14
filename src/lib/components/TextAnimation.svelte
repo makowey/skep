@@ -28,6 +28,8 @@
         font-weight: 30;
         text-transform: uppercase;
         color: var(--text-color);
+        border-radius: 5px;
+        margin-top: -4px;
     }
 
     .wrapper > div {
