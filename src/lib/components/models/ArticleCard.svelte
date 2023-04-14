@@ -1,5 +1,6 @@
 <script>
     import {randomIntFromInterval} from "$lib/js/utils";
+    import {goto} from "$app/navigation";
 
     const randomNumber = randomIntFromInterval(1, 1000);
     const isNew = randomNumber % 3 === 0;
@@ -15,7 +16,7 @@
     };
 </script>
 
-<div class="shadow-md rounded-lg overflow-hidden">
+<div class="shadow-md rounded-lg overflow-hidden cursor-pointer" on:click={() => goto('/products/' + article.id)}>
     <div class="flex-shrink-0">
         <img src="{article.images[0]}" alt="{article.title}" class="h-48 w-full object-cover">
     </div>
