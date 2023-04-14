@@ -15,21 +15,21 @@
     };
 </script>
 
-<div class="bg-white shadow-md rounded-lg overflow-hidden">
+<div class="shadow-md rounded-lg overflow-hidden">
     <div class="flex-shrink-0">
         <img src="{article.images[0]}" alt="{article.title}" class="h-48 w-full object-cover">
     </div>
     <div class="p-4">
         <div class="font-semibold text-xl mb-2">{article.title}</div>
-        <p class="text-gray-700 text-base mb-4">{article.description}</p>
+        <p class="text-base mb-4">{article.description}</p>
         <div class="mb-4">
-            <span class="text-gray-600 text-sm">Tags:</span>
-            <span class="text-gray-900 text-sm ml-1">{article.brand}</span>
-            <span class="text-gray-900 text-sm ml-1">{article.category}</span>
+            <span class="text-sm">Tags:</span>
+            <span class="text-sm ml-1">{article.brand}</span>
+            <span class="text-sm ml-1">{article.category}</span>
         </div>
         <div class="flex items-center justify-between">
-            <span class="text-gray-900 font-medium">${article.price}</span>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Buy Now</button>
+            <span class="font-medium">${article.price}</span>
+            <button class="bg-accent-content/70 hover:bg-accent-content/50 text-white font-bold py-2 px-4 rounded">Buy Now</button>
         </div>
     </div>
 </div>
