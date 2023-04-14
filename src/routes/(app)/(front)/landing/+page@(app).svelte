@@ -1,9 +1,10 @@
 <script>
     import {subtitle} from "$lib/store";
+    import TextAnimation from "$lib/components/TextAnimation.svelte";
 
     subtitle.set(false);
 </script>
 
 <slot>
-    This is the landing page...
+    <TextAnimation text="Landing"/>
 </slot>

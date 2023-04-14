@@ -4,6 +4,7 @@
     import {navigating} from "$app/stores";
     import Loading from "$lib/components/Loading.svelte";
     import InfiniteScroll from "svelte-infinite-scroll";
+    import TextAnimation from "$lib/components/TextAnimation.svelte";
 
     subtitle.set(false);
 
@@ -22,7 +23,7 @@
 </script>
 
 <slot>
-    This is the featured page...
+    <TextAnimation text="Features"/>
 
     {#if $navigating}
         <Loading/>
