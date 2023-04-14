@@ -28,14 +28,12 @@
     {#if $navigating}
         <Loading/>
     {:else}
-        <div class="container my-12 mx-auto px-4 md:px-12 shadow-inner">
-            <div class="flex flex-wrap -mx-1 lg:-mx-2" id="products">
+        <div class="my-12 mx-auto px-4 md:px-12 shadow-inner">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="products">
                 {#each products as product}
-                    <div class="my-1 px-1 w-full md:mx-20 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/3">
-                        <ArticleCard article={product}/>
-                    </div>
+                    <ArticleCard article={product}/>
                 {/each}
-                <InfiniteScroll threshold={10} on:loadMore={() => page++} />
+                <InfiniteScroll threshold={10} on:loadMore={() => page++}/>
             </div>
         </div>
     {/if}
