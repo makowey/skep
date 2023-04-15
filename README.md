@@ -16,4 +16,5 @@ SvelteKit E-Commerce Platform
 - `pnpm preview`: Preview the production build
  
 ### Live preview
-https://skep.herokuapp.com/
+Deployed with Vercel: 
+https://skep.vercel.app/
