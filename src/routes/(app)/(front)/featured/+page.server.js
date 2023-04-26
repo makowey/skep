@@ -2,7 +2,7 @@
 export async function load({fetch}) {
     let products = [];
     try {
-        const response = await fetch(`https://dummyjson.com/products`, {
+        const response = await fetch(`${import.meta.env.VITE_PRODUCTS_API}`, {
                 headers: {
                     "content-type": "application/json",
                     "accept": "application/json"
