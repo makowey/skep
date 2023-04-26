@@ -22,7 +22,9 @@
         }
     };
 
-    article.imageUrl = `${import.meta.env.VITE_PRESTASHOP_API_URL}/images/products/${article.id}/${article.id_default_image}`;
+
+    //`.../img/p/2/4/1/2/2412.jpg`;
+    article.imageUrl = `${import.meta.env.VITE_PRESTASHOP_API_URL.replace("/api", "")}/img/p/${[...article.id_default_image].join("/")}/${article.id_default_image}.jpg`;
 </script>
 
 <div class="shadow-md rounded-lg overflow-hidden cursor-pointer" on:click={() => goto('/products/' + article.id)}>
