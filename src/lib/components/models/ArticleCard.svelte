@@ -33,11 +33,11 @@
         <div class="font-semibold text-xl mb-2">{article.name}</div>
         <p class="text-base mb-4">{@html article.description?.substring(0, 200).concat("...")}</p>
         <div class="mb-4">
-<!--            <span class="text-md text-info ml-1 float-left">Ref: {article.reference}</span>-->
-<!--            <span class="text-sm">Tags:</span>-->
-<!--            {#each article?.associations?.tags as tag}-->
-<!--                <span class="text-sm ml-1">{tag.id}</span>-->
-<!--            {/each}-->
+            <!--            <span class="text-md text-info ml-1 float-left">Ref: {article.reference}</span>-->
+            <!--            <span class="text-sm">Tags:</span>-->
+            <!--            {#each article?.associations?.tags as tag}-->
+            <!--                <span class="text-sm ml-1">{tag.id}</span>-->
+            <!--            {/each}-->
         </div>
         <div class="flex items-center justify-between">
             <span class="font-medium">{parseFloat(article.price).toFixed(2)} RON</span>
