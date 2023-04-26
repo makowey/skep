@@ -2,18 +2,40 @@
 export async function load({fetch}) {
     let products = [];
     try {
-        const response = await fetch(`${import.meta.env.VITE_PRODUCTS_API}`, {
-                headers: {
-                    "content-type": "application/json",
-                    "accept": "application/json"
+        const response =
+            await fetch(`${import.meta.env.VITE_PRESTASHOP_API_URL}/products?output_format=JSON&limit=10`, {
+                    headers: {
+                        "content-type": "application/json",
+                        "accept": "application/json",
+                        "authorization": `Basic ${import.meta.env.VITE_PRESTASHOP_API_KEY}`
+                    }
                 }
-            }
-        );
+            );
 
-        products = await response.json();
+        const responseJson = await response.json();
+        products = responseJson?.products;
+
+        const results = await Promise.all(products.map(p => loadProduct(p.id)));
+
+        return { products: results }
     } catch (error) {
         console.error(error.message)
     }
 
-    return products;
+    return { products: []};
+}
+
+async function loadProduct(productId) {
+    const response =
+        await fetch(`${import.meta.env.VITE_PRESTASHOP_API_URL}/products/${productId}?output_format=JSON&limit=10`, {
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json",
+                    "authorization": `Basic ${import.meta.env.VITE_PRESTASHOP_API_KEY}`
+                }
+            }
+        );
+
+    const responseJson = await response.json();
+    return responseJson?.product;
 }

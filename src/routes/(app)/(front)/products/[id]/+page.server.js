@@ -1,21 +1,19 @@
 /** @type {import('./$types').PageLoad} */
-export async function load({params, fetch}) {
-    let product = {};
-    try {
-        const response = await fetch(`${import.meta.env.VITE_PRODUCTS_API}/${params.id}`, {
+export async function load({params}) {
+    return {product: loadProduct(params.id)};
+}
+
+async function loadProduct(productId) {
+    const response =
+        await fetch(`${import.meta.env.VITE_PRESTASHOP_API_URL}/products/${productId}?output_format=JSON&limit=10`, {
                 headers: {
                     "content-type": "application/json",
-                    "accept": "application/json"
+                    "accept": "application/json",
+                    "authorization": `Basic ${import.meta.env.VITE_PRESTASHOP_API_KEY}`
                 }
             }
         );
 
-        product = await response.json();
-    } catch (error) {
-        console.error(error.message)
-    }
-
-    return {
-        product
-    };
+    const responseJson = await response.json();
+    return responseJson?.product;
 }
