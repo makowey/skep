@@ -20,7 +20,8 @@
 
     let counter = 1;
     let images = [];
-    article?.associations?.images.forEach(image => images.push({url: `${import.meta.env.VITE_PRESTASHOP_API_URL}/images/products/${article.id}/${image.id}`, id: counter++}))
+    let baseUrl = import.meta.env.VITE_PRESTASHOP_API_URL.replace("https://", "https://" + import.meta.env.VITE_PRESTASHOP_API_KEY + "@");
+    article?.associations?.images.forEach(image => images.push({url: `${baseUrl}/images/products/${article.id}/${image.id}`, id: counter++}))
 </script>
 
 <div class="container mx-auto my-8 flex flex-col lg:flex-row">
