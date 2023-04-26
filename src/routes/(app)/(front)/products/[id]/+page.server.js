@@ -5,7 +5,7 @@ export async function load({params}) {
 
 async function loadProduct(productId) {
     const response =
-        await fetch(`${import.meta.env.VITE_PRESTASHOP_API_URL}/products/${productId}?output_format=JSON&limit=10`, {
+        await fetch(`${import.meta.env.VITE_PRESTASHOP_API_URL}/products/${productId}?output_format=JSON`, {
                 headers: {
                     "content-type": "application/json",
                     "accept": "application/json",
