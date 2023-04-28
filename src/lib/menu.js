@@ -22,6 +22,6 @@ export const menuEntries = [
 ];
 
 export let active = menuEntries[0].name;
-export let appName = 'SKEP';
+export let appName = 'AMEC';
 export let appDescription = 'SvelteKit E-commerce Platform';
 export default menuEntries;
