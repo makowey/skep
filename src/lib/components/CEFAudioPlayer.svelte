@@ -5,4 +5,4 @@
 
 </script>
 
-<Aplayer audio={playlist} volume={0.4}/>
+<Aplayer audio={playlist} volume={0.4} autoplay={true}/>
