@@ -25,6 +25,9 @@ dependencies:
   redis:
     specifier: ^4.6.5
     version: 4.6.5
+  svelte-aplayer:
+    specifier: ^0.1.2
+    version: 0.1.2
   svelte-carousel:
     specifier: ^1.0.25
     version: 1.0.25
@@ -34,9 +37,6 @@ dependencies:
   svelte-infinite-scroll:
     specifier: ^2.0.1
     version: 2.0.1
-  svelte-mp3:
-    specifier: ^1.2.0
-    version: 1.2.0
 
 devDependencies:
   '@iconify/svelte':
@@ -1330,6 +1330,10 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+  /svelte-aplayer@0.1.2:
+    resolution: {integrity: sha512-B5BnkP7zAtGlEIGxk9t7Unw8ICbXVLiltsxAqw3muiQiHb4wOJ0vZRF/bM9NYD/PeeXyHQVxSjjnLGUhVIIHsw==}
+    dev: false
+
   /svelte-carousel@1.0.25:
     resolution: {integrity: sha512-vR/AbGYwlh3fgWaB5PJg+iqZFvoVCJq4JWdmlXvPtdG9TLlKJWBcoiKlMZt3MnFF7AqNW46tOH/O+uVMWQzyWQ==}
     dependencies:
@@ -1355,10 +1359,6 @@ packages:
 
   /svelte-infinite-scroll@2.0.1:
     resolution: {integrity: sha512-goTHCfOHRDCs8C5MeSuIc6LlAQ8zVQ+M4Y3LyvrDjx5rqSSxSrdCuQwIyWYNcO6j6/mnqRro3QB64ClBzfn+Wg==}
-    dev: false
-
-  /svelte-mp3@1.2.0:
-    resolution: {integrity: sha512-YHdIcHi5pThsPmIEiJuOQlycyAFy3QAudV9/BjrdzkmjufG1RYTw/QqDvNUnYX3GaJtmYBt5cTU7BdWKM86zmA==}
     dev: false
 
   /svelte-preprocess@4.10.7(postcss-load-config@4.0.1)(postcss@8.4.14)(svelte@3.54.0):

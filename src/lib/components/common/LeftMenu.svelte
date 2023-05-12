@@ -18,7 +18,7 @@
     </div>
     <div class="drawer-side">
         <label for="left-menu" class="drawer-overlay"></label>
-        <ul class="menu rounded-box p-4 w-36 bg-base-100 text-base-content">
+        <ul class="menu rounded-box p-4 w-48 bg-base-100 text-base-content">
             <!-- Sidebar content here -->
             {#each menuEntries as menuEntry}
                 <li class="{active === menuEntry.name ? 'btn-secondary' : ''} mt-2"

@@ -5,13 +5,13 @@ export const menuEntries = [
         icon: "line-md:home-md-twotone"
     },
     {
-        url: "/landing",
-        name: "Landing",
-        icon: "ic:twotone-store-mall-directory"
+        url: "/player",
+        name: "Player",
+        icon: "mdi:disc-player"
     },
     {
       url: "/featured",
-      name: "Featured",
+      name: "Products",
       icon: "material-symbols:featured-play-list-outline"
     },
     {

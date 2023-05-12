@@ -23,7 +23,7 @@
 </script>
 
 <slot>
-    <TextAnimation text="Features"/>
+    <TextAnimation text="Products"/>
 
     {#if $navigating}
         <Loading/>
