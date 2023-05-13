@@ -7,6 +7,9 @@ dependencies:
   '@tailwindcss/typography':
     specifier: ^0.5.9
     version: 0.5.9(tailwindcss@3.1.5)
+  amplitudejs:
+    specifier: ^5.3.2
+    version: 5.3.2
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
@@ -25,9 +28,6 @@ dependencies:
   redis:
     specifier: ^4.6.5
     version: 4.6.5
-  svelte-aplayer:
-    specifier: ^0.1.2
-    version: 0.1.2
   svelte-carousel:
     specifier: ^1.0.25
     version: 1.0.25
@@ -478,6 +478,10 @@ packages:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+
+  /amplitudejs@5.3.2:
+    resolution: {integrity: sha512-aRZqYMzRuZQ0Ua3ZtK5CTECE958meBfwzXZcx2Hn1itu2KwIB8giwsAPW52um0teewYBXZ5aTzy/wxy3E34e0g==}
+    dev: false
 
   /anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
@@ -1329,10 +1333,6 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
-
-  /svelte-aplayer@0.1.2:
-    resolution: {integrity: sha512-B5BnkP7zAtGlEIGxk9t7Unw8ICbXVLiltsxAqw3muiQiHb4wOJ0vZRF/bM9NYD/PeeXyHQVxSjjnLGUhVIIHsw==}
-    dev: false
 
   /svelte-carousel@1.0.25:
     resolution: {integrity: sha512-vR/AbGYwlh3fgWaB5PJg+iqZFvoVCJq4JWdmlXvPtdG9TLlKJWBcoiKlMZt3MnFF7AqNW46tOH/O+uVMWQzyWQ==}
