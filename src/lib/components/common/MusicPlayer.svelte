@@ -1,8 +1,9 @@
 <script>
     import {browser} from "$app/environment";
     import playlist from "$lib/playlist.js";
+    import {navigating} from "$app/stores";
 
-    $: if (browser) {
+    $: if (!navigating) {
         // media controllers
         const playPause = document.getElementById("play-stop");
         const backward = document.getElementById("backward");
@@ -59,10 +60,9 @@
             append(musicbox, ul);
         }
 
-        let songIndex = 0;
         // preloaded song
+        let songIndex = 0;
         loadMusic(songList[songIndex]);
-
 
         function loadMusic() {
             coverArt.src = songList[songIndex].cover;
@@ -135,15 +135,15 @@
         <div class="playbox">
             <div class="controller">
                 <div id="circle-bg" class="circle">
-                    <div id="circle-sm" class="circle2"><img id="cover" src={playlist[0].cover} class="fluid-img"></div>
+                    <div id="circle-sm" class="circle2"><img id="cover" src={playlist[0].cover} class="fluid-img" alt="cover"></div>
                 </div>
                 <div class="songs">
                     <h2 id="song-name">{playlist[0]?.name}</h2>
-                    <div class="controls">
+                    <div class="controls grid grid-cols-3 mx-auto inset-x-0">
                         <audio id="audio" src={playlist[0]?.source} autoplay></audio>
-                        <img id="backward" class="media-btn" src="/assets/backward-button.png">
-                        <img id="play-stop" class="media-btn">
-                        <img id="forward" class="media-btn" src="/assets/fast-forward.png">
+                        <img id="backward" class="media-btn" src="/assets/backward-button.png" alt="backward">
+                        <img id="play-stop" class="media-btn" alt="play" src="/assets/play.svg">
+                        <img id="forward" class="media-btn" src="/assets/fast-forward.png" alt="forward">
                     </div>
                 </div>
             </div>
