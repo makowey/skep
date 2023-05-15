@@ -1,851 +1,370 @@
 <script>
-    import Amplitude from 'amplitudejs';
     import {browser} from "$app/environment";
+    import playlist from "$lib/playlist.js";
 
     $: if (browser) {
-        Amplitude.init({
-            bindings: {
-                37: 'prev',
-                39: 'next',
-                32: 'play_pause'
-            },
-            debug: false,
-            visualization: 'michaelbromley_visualization',
-            songs: [
-                {
-                    "name": 'Da-I povara ta lui Isus',
-                    "artist": 'AMEC - Cartea fara Cuvinte',
-                    "album": "Soon It Will Be Cold Enough",
-                    "cover_art_url": 'https://edituraamec.ro/bookstore/img/p/2/4/0/3/2403-medium_default.jpg',
-                    "url": `${import.meta.env.VITE_CANTARI_AMEC_ROOT}/Cartea fara Cuvinte/mp3/Da-I povara ta lui Isus (voce).mp3`,
-                    "visualization": "michaelbromley_visualization"
-                }
-            ],
+        // media controllers
+        const playPause = document.getElementById("play-stop");
+        const backward = document.getElementById("backward");
+        const forward = document.getElementById("forward");
 
-            waveforms: {
-                sample_rate: 50
-            },
+        // record player animation
+        const circleBig = document.getElementById("circle-bg");
+        const circleSm = document.getElementById("circle-sm");
 
-            visualizations: [
-                {
-                    object: MichaelBromleyVisualization,
-                    params: {}
-                }
-            ]
-        });
+        // playing song
+        const songName = document.getElementById("song-name");
+        const audio = document.getElementById("audio");
+        const coverArt = document.getElementById("cover");
+        const musicbox = document.getElementById("musicbox");
 
-        document.getElementsByClassName('visualization-toggle')[0].addEventListener('click', function () {
-            if (this.classList.contains('visualization-off')) {
-                this.classList.remove('visualization-off');
-                this.classList.add('visualization-on');
-                document.getElementById('large-now-playing-album-art').style.display = 'none';
-                document.getElementById('large-visualization').style.display = 'block';
-            } else {
-                this.classList.remove('visualization-on');
-                this.classList.add('visualization-off');
-                document.getElementById('large-now-playing-album-art').style.display = 'block';
-                document.getElementById('large-visualization').style.display = 'none';
+        // control button images
+        let playImg = "/assets/play.svg";
+        let pauseImg = "/assets/pause.svg";
+
+        // default controls
+        playPause.src = playImg;
+        let isPlaying = true;
+
+        const songList = playlist.map(song => {
+            return {
+                name: song.name,
+                source: song.url,
+                cover: song.cover
             }
         });
 
+        // helper function
+        function createEle(ele) {
+            return document.createElement(ele);
+        }
 
-        document.getElementsByClassName('arrow-up-icon')[0].addEventListener('click', function () {
-            document.getElementById('visualizations-player-playlist').style.display = 'block';
-        });
+        function append(parent, child) {
+            return parent.append(child);
+        }
 
-        document.getElementsByClassName('arrow-down-icon')[0].addEventListener('click', function () {
-            document.getElementById('visualizations-player-playlist').style.display = 'none';
-        });
+        // creating track list
+        const ul = createEle('ul')
+
+        function createPlayList() {
+            songList.forEach((song) => {
+                let h3 = createEle('h3');
+                let li = createEle('li');
+
+                li.classList.add("track-item");
+                h3.innerText = song.name;
+                append(li, h3);
+                append(ul, li)
+            })
+            append(musicbox, ul);
+        }
+
+        let songIndex = 0;
+        // preloaded song
+        loadMusic(songList[songIndex]);
+
+
+        function loadMusic() {
+            coverArt.src = songList[songIndex].cover;
+            songName.innerText = songList[songIndex].name;
+            audio.src = songList[songIndex].source;
+        }
+
+        function playSong() {
+            playPause.src = pauseImg;
+            circleBig.classList.add("animate");
+            circleSm.classList.add("animate");
+
+            audio.play();
+        }
+
+        function pauseSong() {
+            playPause.src = playImg;
+            circleBig.classList.remove("animate");
+            circleSm.classList.remove("animate");
+
+            audio.pause();
+        }
+
+        function nextPlay() {
+            songIndex++;
+            if (songIndex > songList.length - 1) {
+                songIndex = 0;
+            }
+            loadMusic(songList[songIndex]);
+            playSong()
+        }
+
+        function backPlay() {
+            songIndex--;
+            if (songIndex < 0) {
+                songIndex = songList.length - 1;
+            }
+            loadMusic(songList[songIndex]);
+            playSong()
+        }
+
+        function playHandler() {
+            isPlaying = !isPlaying;
+            //console.log("Change: ",isPlaying)
+            isPlaying ? pauseSong() : playSong();
+        }
+
+
+        // player event
+        playPause.addEventListener("click", playHandler);
+        backward.addEventListener("click", backPlay);
+        forward.addEventListener("click", nextPlay);
+
+        createPlayList();
     }
 </script>
 
-
-<svelte:head>
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i" rel="stylesheet">
-    <script type="text/javascript" src="/js/michaelbromley.js"></script>
-</svelte:head>
-
-
-<div id="visualizations-player">
-    <div class="top-container">
-        <img class="now-playing-album-art" id="large-now-playing-album-art" data-amplitude-song-info="cover_art_url"/>
-        <div class="amplitude-visualization" id="large-visualization">
-
-        </div>
-        <div class="visualization-toggle visualization-on"></div>
-        <div class="amplitude-shuffle"></div>
-        <div class="amplitude-repeat"></div>
-    </div>
-
-    <div class="meta-data-container">
-        <span class="now-playing-name" data-amplitude-song-info="name"></span>
-        <span class="now-playing-artist-album">
-          <span class="now-playing-artist" data-amplitude-song-info="artist"></span> - <span class="now-playing-album"
-                                                                                             data-amplitude-song-info="album"></span>
-        </span>
-    </div>
-
-    <div class="amplitude-wave-form">
-
-    </div>
-    <input type="range" class="amplitude-song-slider" id="global-large-song-slider"/>
-
-    <div>
-        <span class="amplitude-current-time"></span>
-
-        <span class="amplitude-time-remaining"></span>
-    </div>
-
-    <div class="control-container">
-        <div class="amplitude-prev">
-
-        </div>
-
-        <div class="amplitude-play-pause amplitude-paused">
-
-        </div>
-
-        <div class="amplitude-next">
-
-        </div>
-    </div>
-
-    <div class="song-navigation">
-        <input type="range" class="amplitude-song-slider"/>
-    </div>
-
-    <div class="arrow-up">
-        <img src="https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/arrow-up.svg"
-             class="arrow-up-icon"/>
-    </div>
-
-    <div id="visualizations-player-playlist">
-        <div class="top-arrow">
-            <img src="https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/arrow-down.svg"
-                 class="arrow-down-icon"/>
-        </div>
-
-        <div class="top">
-            <span class="playlist-title">Songs</span>
-            <div class="amplitude-repeat">
-
-            </div>
-            <div class="amplitude-shuffle">
-
+<section id="home">
+    <div class="container">
+        <div class="collection">
+            <h1 class="heading">Zen Lofi Chillhop</h1>
+            <p class="lead">Chill-out is a loosely defined form of popular music characterized by slow tempos and
+                relaxed moods. Identified as a modern type of easy listening.</p>
+            <hr class="hor">
+            <div id="musicbox" class="musicbox">
+                <h2>CEF Playlist</h2>
             </div>
         </div>
 
-        <div class="songs-container">
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="0">
-                <span class="song-position">01</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="0"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="0"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="0"></span>
+        <div class="playbox">
+            <div class="controller">
+                <div id="circle-bg" class="circle">
+                    <div id="circle-sm" class="circle2"><img id="cover" src={playlist[0].cover} class="fluid-img"></div>
                 </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="1">
-                <span class="song-position">02</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="1"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="1"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="1"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="2">
-                <span class="song-position">03</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="2"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="2"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="2"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="3">
-                <span class="song-position">04</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="3"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="3"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="3"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="4">
-                <span class="song-position">05</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="4"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="4"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="4"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="5">
-                <span class="song-position">06</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="5"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="5"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="5"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="6">
-                <span class="song-position">07</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="6"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="6"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="6"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="7">
-                <span class="song-position">08</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="7"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="7"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="7"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="8">
-                <span class="song-position">09</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="8"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="8"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="8"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="9">
-                <span class="song-position">10</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="9"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="9"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="9"></span>
-                </div>
-            </div>
-            <div class="song amplitude-song-container amplitude-play-pause" data-amplitude-song-index="10">
-                <span class="song-position">11</span>
-                <img class="song-album-art" data-amplitude-song-info="cover_art_url" data-amplitude-song-index="10"/>
-                <div class="song-meta-data-container">
-                    <span class="song-name" data-amplitude-song-info="name" data-amplitude-song-index="10"></span>
-                    <span class="song-artist" data-amplitude-song-info="artist" data-amplitude-song-index="10"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="active-audio">
-            <img class="cover-art-small" data-amplitude-song-info="cover_art_url"/>
-
-            <div class="active-audio-right">
-                <span class="song-name" data-amplitude-song-info="name"></span>
-
-                <div class="active-audio-controls">
-                    <div class="amplitude-prev"></div>
-                    <div class="amplitude-play-pause"></div>
-                    <div class="amplitude-next"></div>
+                <div class="songs">
+                    <h2 id="song-name">{playlist[0]?.name}</h2>
+                    <div class="controls">
+                        <audio id="audio" src={playlist[0]?.source} autoplay></audio>
+                        <img id="backward" class="media-btn" src="/assets/backward-button.png">
+                        <img id="play-stop" class="media-btn">
+                        <img id="forward" class="media-btn" src="/assets/fast-forward.png">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div id="pre-load-img-container">
-    <img src="https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/play.svg"/>
-    <img src="https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/pause.svg"/>
-    <img src="https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/next.svg"/>
-    <img src="https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/prev.svg"/>
-</div>
+</section>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap');
 
-    div#pre-load-img-container {
-        display: none;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
-    /*
-      2. Components
-    */
-    div.top-container {
-        margin-bottom: 40px;
-        position: relative;
+    :root {
+        --white-color: #ffffff;
     }
 
-    div.top-container div.amplitude-visualization {
-        width: 200px;
-        height: 200px;
-        box-shadow: 0 5px 31px 0 rgba(0, 0, 0, 0.5);
+    body {
+        font-family: 'Josefin Sans', sans-serif;
+        width: 100%;
+        background-image: linear-gradient(
+                to right bottom,
+                #118ab2,
+                #0e92b9,
+                #0b99c1,
+                #07a1c8,
+                #03a9cf,
+                #37b0d8,
+                #51b8e1,
+                #66bfe9,
+                #8cc7f2,
+                #accff8,
+                #c7d8fc,
+                #dee2ff
+        );
+    }
+
+    .container {
+        max-width: 1200px;
         margin: auto;
-        background-color: black;
+        padding: 0 1rem;
     }
 
-    div.top-container img.now-playing-album-art {
-        width: 200px;
-        margin: auto;
-        box-shadow: 0 5px 31px 0 rgba(0, 0, 0, 0.5);
-        display: none;
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 300;
+        color: var(--white-color);
+        margin: 1rem 0 1rem 0;
     }
 
-    div.top-container div.visualization-toggle {
-        width: 24px;
-        height: 24px;
-        top: 0;
-        right: 8px;
-        cursor: pointer;
-        position: absolute;
+    .heading {
+        font-size: 32px;
     }
 
-    div.top-container div.visualization-toggle.visualization-on {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/visualization-on.svg") no-repeat center;
-    }
+    /* end common style */
 
-    div.top-container div.visualization-toggle.visualization-off {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/visualization-off.svg") no-repeat center;
-    }
-
-    div.top-container div.amplitude-shuffle {
-        width: 22px;
-        height: 13px;
-        cursor: pointer;
-        top: 48px;
-        right: 10px;
-        position: absolute;
-    }
-
-    div.top-container div.amplitude-shuffle.amplitude-shuffle-on {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/shuffle-on.svg") no-repeat center;
-    }
-
-    div.top-container div.amplitude-shuffle.amplitude-shuffle-off {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/shuffle-off.svg") no-repeat center;
-    }
-
-    div.top-container div.amplitude-repeat {
-        width: 25px;
-        height: 15px;
-        cursor: pointer;
-        top: 85px;
-        right: 8px;
-        position: absolute;
-    }
-
-    div.top-container div.amplitude-repeat.amplitude-repeat-on {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/repeat-on.svg") no-repeat center;
-    }
-
-    div.top-container div.amplitude-repeat.amplitude-repeat-off {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/repeat-off.svg") no-repeat center;
-    }
-
-    div.control-container {
-        margin-top: 40px;
+    #home .container {
         display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-direction: row;
     }
 
-    div.control-container div.amplitude-prev {
-        width: 18px;
-        height: 24px;
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/prev.svg");
-        background-size: cover;
-        cursor: pointer;
-        margin: auto;
-        margin-top: 10px;
+    .collection {
+        width: 50%;
+        flex: 1;
+        margin-top: 1.5rem;
     }
 
-    div.control-container div.amplitude-play-pause {
-        width: 30px;
-        height: 44px;
-        cursor: pointer;
-        margin: auto;
+    .lead {
+        max-width: 600px;
+        font-weight: 400;
+        color: #15253a;
+        letter-spacing: 0.5px;
+        line-height: 1.2rem;
     }
 
-    div.control-container div.amplitude-play-pause.amplitude-playing {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/pause.svg") no-repeat center;
+    .musicbox {
+        margin-top: 1rem;
     }
 
-    div.control-container div.amplitude-play-pause.amplitude-paused {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/play.svg") no-repeat center;
+    .musicbox ul li h3 {
+        color: #15253a;
+        font-weight: 400;
     }
 
-    div.control-container div.amplitude-next {
-        width: 18px;
-        height: 24px;
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/next.svg");
-        background-size: cover;
-        cursor: pointer;
-        margin: auto;
-        margin-top: 10px;
+    .hor {
+        margin: 1rem 0 1rem 0;
+        max-width: 500px;
+        background-color: #c7d8fc;
     }
 
-    /*
-      Small only
-    */
-    /*
-      Medium only
-    */
-    /*
-      Large Only
-    */
-    div.meta-data-container {
-        margin-top: 40px;
-    }
-
-    div.meta-data-container span.now-playing-name {
-        display: block;
+    .playbox {
+        flex: 1;
+        margin: 0.5rem auto;
         text-align: center;
-        margin-bottom: 15px;
-        font-size: 28px;
-        font-weight: 700;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        border-radius: 8px;
+        background-color: #c7d8fc8c;
     }
 
-    div.meta-data-container span.now-playing-artist-album {
+    nav {
         display: block;
-        text-align: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.7);
+        margin: 3rem auto;
     }
 
-    /*
-      Small only
-    */
-    /*
-      Medium only
-    */
-    /*
-      Large Only
-    */
-    div.amplitude-wave-form {
-        margin-top: 25px;
-        margin-bottom: 12px;
+    ul li {
+        list-style: none;
+        margin: 0.5rem;
     }
 
-    div.amplitude-wave-form svg {
-        stroke: url(#gradient);
-        height: 50px;
+    ul li a {
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        color: var(--white-color);
+        transition: all 300ms;
+    }
+
+    ul li a:hover {
+        background-color: #c7d8fc8c;
+    }
+
+    .controller {
+        margin: 2.5rem auto;
         width: 100%;
-        stroke-width: .5px;
+        max-width: 400px;
+        min-height: 500px;
     }
 
-    div.amplitude-wave-form svg g {
-        stroke: url(#gradient);
-        height: 50px;
-        width: 100%;
-    }
-
-    div.amplitude-wave-form svg g path {
-        stroke: url(#gradient);
-        height: 50px;
-        width: 100%;
-    }
-
-    span.amplitude-current-time {
-        display: block;
-        text-align: left;
-        color: white;
-        font-size: 12px;
-    }
-
-    span.amplitude-time-remaining {
-        display: block;
-        text-align: right;
-        color: white;
-        font-size: 12px;
-    }
-
-    div.song-navigation {
-        margin-top: 50px;
-        margin-bottom: 25px;
-    }
-
-    div.song-navigation input[type="range"] {
-        width: 90%;
-        -webkit-appearance: none;
-        z-index: 9999;
-        background-color: inherit;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-
-    div.song-navigation input[type="range"]:focus {
-        outline: none;
-    }
-
-    div.song-navigation input[type="range"]::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 4px;
-        cursor: pointer;
-        border-radius: 0px;
-        background: rgba(255, 255, 255, 0.25);
-    }
-
-    div.song-navigation input[type="range"]::-webkit-slider-thumb {
-        width: 28px;
-        height: 28px;
-        background-color: white;
-        border-radius: 20px;
-        -webkit-appearance: none;
-        margin-top: -10px;
-    }
-
-    div.song-navigation input[type="range"]::-moz-range-track {
-        width: 100%;
-        height: 4px;
-        cursor: pointer;
-        border-radius: 0px;
-        background: rgba(255, 255, 255, 0.25);
-    }
-
-    div.song-navigation input[type="range"]::-moz-range-thumb {
-        width: 28px;
-        height: 28px;
-        background-color: white;
-        border-radius: 20px;
-        -webkit-appearance: none;
-        margin-top: -10px;
-    }
-
-    div.song-navigation input[type="range"]::-ms-track {
-        width: 100%;
-        height: 4px;
-        cursor: pointer;
-        border-radius: 0px;
-        background: rgba(255, 255, 255, 0.25);
-    }
-
-    div.song-navigation input[type="range"]::-ms-fill-lower {
-        background: transparent;
-    }
-
-    div.song-navigation input[type="range"]::-ms-fill-upper {
-        background: transparent;
-    }
-
-    div.song-navigation input[type="range"]::-ms-thumb {
-        width: 28px;
-        height: 28px;
-        background-color: white;
-        border-radius: 20px;
-        -webkit-appearance: none;
-        margin-top: -10px;
-    }
-
-    div.arrow-up img.arrow-up-icon {
-        cursor: pointer;
-        margin: auto;
-        display: block;
-    }
-
-    input[type="range"]#global-large-song-slider {
-        width: 100%;
-        margin-top: -74px;
-        -webkit-appearance: none;
-        z-index: 9999;
-        background-color: inherit;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-
-    input[type="range"]#global-large-song-slider:focus {
-        outline: none;
-    }
-
-    input[type="range"]#global-large-song-slider::-webkit-slider-runnable-track {
-        width: 100%;
-        cursor: pointer;
-        border-radius: 0px;
-        height: 68px;
-        background-color: rgba(0, 0, 0, 0);
-        -webkit-appearance: none;
-    }
-
-    input[type="range"]#global-large-song-slider::-webkit-slider-thumb {
-        width: 5px;
-        height: 68px;
-        background-color: white;
-        border-radius: 20px;
-        -webkit-appearance: none;
-    }
-
-    input[type="range"]#global-large-song-slider::-moz-range-track {
-        width: 100%;
-        height: 0px;
-        cursor: pointer;
-        border-radius: 0px;
-        height: 68px;
-        background-color: rgba(0, 0, 0, 0);
-    }
-
-    input[type="range"]#global-large-song-slider::-moz-range-thumb {
-        width: 5px;
-        height: 68px;
-        background-color: white;
-        border-radius: 20px;
-        -webkit-appearance: none;
-        margin-top: -34px;
-    }
-
-    input[type="range"]#global-large-song-slider::-ms-track {
-        width: 100%;
-        height: 4px;
-        cursor: pointer;
-        border-radius: 0px;
-        background: rgba(255, 255, 255, 0.25);
-    }
-
-    input[type="range"]#global-large-song-slider::-ms-fill-lower {
-        background: transparent;
-    }
-
-    input[type="range"]#global-large-song-slider::-ms-fill-upper {
-        background: transparent;
-    }
-
-    input[type="range"]#global-large-song-slider::-ms-thumb {
-        width: 28px;
-        height: 28px;
-        background-color: white;
-        border-radius: 20px;
-        -webkit-appearance: none;
-        margin-top: -10px;
-    }
-
-    /*
-      3. Layout
-    */
-    div#visualizations-player {
-        width: 325px;
-        padding: 25px;
-        background-color: #482D57;
-        border-radius: 20px;
-        margin: auto;
-        margin-top: 50px;
-        position: relative;
-    }
-
-    /*
-      Small only
-    */
-    /*
-      Medium only
-    */
-    /*
-      Large Only
-    */
-    div#visualizations-player-playlist {
-        background-color: #482D57;
-        border-radius: 20px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        padding: 25px;
-        padding-top: 25px;
-        z-index: 9999;
-        display: none;
-    }
-
-    div#visualizations-player-playlist div.top-arrow {
-        text-align: center;
-    }
-
-    div#visualizations-player-playlist div.top-arrow img {
-        cursor: pointer;
-    }
-
-    div#visualizations-player-playlist div.top {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    div#visualizations-player-playlist div.top span.playlist-title {
-        color: white;
-        font-size: 36px;
-        font-weight: 700;
-    }
-
-    div#visualizations-player-playlist div.top div.amplitude-shuffle {
-        width: 22px;
-        height: 13px;
-        cursor: pointer;
-        float: right;
-        margin-top: 22px;
-    }
-
-    div#visualizations-player-playlist div.top div.amplitude-shuffle.amplitude-shuffle-on {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/shuffle-on.svg") no-repeat center;
-    }
-
-    div#visualizations-player-playlist div.top div.amplitude-shuffle.amplitude-shuffle-off {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/shuffle-off.svg") no-repeat center;
-    }
-
-    div#visualizations-player-playlist div.top div.amplitude-repeat {
-        width: 25px;
-        height: 15px;
-        cursor: pointer;
-        float: right;
-        margin-left: 25px;
-        margin-top: 20px;
-    }
-
-    div#visualizations-player-playlist div.top div.amplitude-repeat.amplitude-repeat-on {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/repeat-on.svg") no-repeat center;
-    }
-
-    div#visualizations-player-playlist div.top div.amplitude-repeat.amplitude-repeat-off {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/repeat-off.svg") no-repeat center;
-    }
-
-    div#visualizations-player-playlist div.songs-container {
-        padding-top: 35px;
-        height: 400px;
-        padding-bottom: 90px;
-        overflow-y: scroll;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song {
-        margin-bottom: 20px;
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 3px;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song.amplitude-active-song-container {
-        background-color: #03C1EB;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song:hover {
-        background-color: #4CF298;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song span.song-position {
-        color: white;
-        font-size: 18px;
-        float: left;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song img.song-album-art {
-        width: 44px;
-        height: 44px;
-        border-radius: 4px;
-        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.5);
-        float: left;
-        margin-left: 12px;
-        margin-right: 16px;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song div.song-meta-data-container {
-        float: left;
-        width: calc(100% - 105px);
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song div.song-meta-data-container span.song-name {
-        font-size: 18px;
-        display: block;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song div.song-meta-data-container span.song-artist {
-        font-size: 12px;
-        display: block;
-        color: white;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    div#visualizations-player-playlist div.songs-container div.song:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-
-    div#visualizations-player-playlist div.active-audio {
-        background-color: rgba(3, 193, 235, 0.7);
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 40px;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        padding-left: 25px;
-        padding-right: 25px;
+    .circle {
+        width: 250px;
+        height: 250px;
+        background-color: #222427;
+        border-radius: 50%;
+        margin: 2rem auto;
         display: flex;
+        border: 3px solid #37b0d8;
+        border-top: 3px solid #0254ec;
+
     }
 
-    div#visualizations-player-playlist div.active-audio img.cover-art-small {
-        width: 50px;
-        height: 50px;
-        border-radius: 4px;
-        float: left;
-    }
-
-    div#visualizations-player-playlist div.active-audio div.active-audio-right {
-        float: left;
-        width: calc(100% - 50px);
-        padding-left: 10px;
-    }
-
-    div#visualizations-player-playlist div.active-audio div.active-audio-right span.song-name {
-        font-size: 16px;
-        color: white;
-        display: block;
-        text-align: center;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    div#visualizations-player-playlist div.active-audio div.active-audio-right div.active-audio-controls {
-        text-align: center;
-    }
-
-    div#visualizations-player-playlist div.active-audio div.active-audio-right div.active-audio-controls div.amplitude-prev {
-        width: 18px;
-        height: 26px;
-        display: inline-block;
-        background-size: contain;
-        background: url(https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/prev.svg) no-repeat center;
-        margin-right: 20px;
-        vertical-align: middle;
-        cursor: pointer;
-    }
-
-    div#visualizations-player-playlist div.active-audio div.active-audio-right div.active-audio-controls div.amplitude-play-pause {
-        display: inline-block;
-        width: 24px;
-        height: 25px;
-        cursor: pointer;
+    .circle2 {
+        width: 180px;
+        height: 180px;
+        background-color: #252629;
+        border-radius: 50%;
+        border: 3px solid #282529;
+        border-top: 3px solid #66bfe9;
+        align-self: center;
+        display: flex;
         margin: auto;
-        vertical-align: middle;
+
     }
 
-    div#visualizations-player-playlist div.active-audio div.active-audio-right div.active-audio-controls div.amplitude-play-pause.amplitude-paused {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/small-play.svg") no-repeat center;
-        background-size: contain;
+    .circle2 .fluid-img {
+        width: 100%;
+        max-width: 160px;
+        height: auto;
+        border-radius: 50%;
+        align-self: center;
+        margin: auto;
     }
 
-    div#visualizations-player-playlist div.active-audio div.active-audio-right div.active-audio-controls div.amplitude-play-pause.amplitude-playing {
-        background: url("https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/small-pause.svg") no-repeat center;
-        background-size: contain;
+    #song-name {
+        color: #15253a;
+        font-weight: 400;
     }
 
-    div#visualizations-player-playlist div.active-audio div.active-audio-right div.active-audio-controls div.amplitude-next {
-        width: 18px;
-        height: 26px;
-        display: inline-block;
-        background-size: contain;
-        background: url(https://521dimensions.com/img/open-source/amplitudejs/examples/visualizations/next.svg) no-repeat center;
-        margin-left: 20px;
-        vertical-align: middle;
+    .circle.animate {
+        animation: anticlock 6s infinite linear;
+    }
+
+    .circle2.animate {
+        animation: clockwise 6s infinite linear;
+    }
+
+    .media-btn {
+        width: 100%;
+        max-width: 50px;
+        height: auto;
         cursor: pointer;
+        margin: auto 1rem;
+    }
+
+    @keyframes anticlock {
+        from {
+            transform: rotate(360deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+    }
+
+    @keyframes clockwise {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @media (max-width: 900px) {
+        #home .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-direction: column-reverse;
+        }
+
+        .collection {
+            width: 90%;
+            flex: 1;
+            margin: 1.5rem auto;
+        }
+
+        .playbox {
+            flex: 1;
+            width: 90%;
+        }
     }
 </style>
