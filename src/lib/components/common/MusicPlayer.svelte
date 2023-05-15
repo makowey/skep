@@ -3,121 +3,99 @@
     import playlist from "$lib/playlist.js";
     import {navigating} from "$app/stores";
 
-    $: if (!navigating) {
+    let songList = [];
+    let songIndex = 0;
+    let selectedSong = {};
+    let playPause;
+    let backward;
+    let forward;
+
+    let circleBig;
+    let circleSm;
+
+    // control button images
+    const playImg = "/assets/play.svg";
+    const pauseImg = "/assets/pause.svg";
+
+    let isPlaying = false;
+
+    let songName;
+    let audio;
+    let coverArt;
+    let musicbox;
+
+    songList = playlist.map(song => {
+        return {
+            name: song.name,
+            source: song.url,
+            cover: song.cover
+        }
+    });
+
+    $: if (!$navigating && browser) {
         // media controllers
-        const playPause = document.getElementById("play-stop");
-        const backward = document.getElementById("backward");
-        const forward = document.getElementById("forward");
-
-        // record player animation
-        const circleBig = document.getElementById("circle-bg");
-        const circleSm = document.getElementById("circle-sm");
-
-        // playing song
-        const songName = document.getElementById("song-name");
-        const audio = document.getElementById("audio");
-        const coverArt = document.getElementById("cover");
-        const musicbox = document.getElementById("musicbox");
-
-        // control button images
-        let playImg = "/assets/play.svg";
-        let pauseImg = "/assets/pause.svg";
+        playPause = document.getElementById("play-stop");
+        backward = document.getElementById("backward");
+        forward = document.getElementById("forward");
 
         // default controls
-        playPause.src = playImg;
-        let isPlaying = true;
+        playPause.src = pauseImg;
 
-        const songList = playlist.map(song => {
-            return {
-                name: song.name,
-                source: song.url,
-                cover: song.cover
-            }
-        });
+        // record player animation
+        circleBig = document.getElementById("circle-bg");
+        circleSm = document.getElementById("circle-sm");
 
-        // helper function
-        function createEle(ele) {
-            return document.createElement(ele);
-        }
-
-        function append(parent, child) {
-            return parent.append(child);
-        }
-
-        // creating track list
-        const ul = createEle('ul')
-
-        function createPlayList() {
-            songList.forEach((song) => {
-                let h3 = createEle('h3');
-                let li = createEle('li');
-
-                li.classList.add("track-item");
-                h3.innerText = song.name;
-                append(li, h3);
-                append(ul, li)
-            })
-            append(musicbox, ul);
-        }
+        // playing song
+        songName = document.getElementById("song-name");
+        audio = document.getElementById("audio");
+        coverArt = document.getElementById("cover");
+        musicbox = document.getElementById("musicbox");
 
         // preloaded song
-        let songIndex = 0;
-        loadMusic(songList[songIndex]);
-
-        function loadMusic() {
-            coverArt.src = songList[songIndex].cover;
-            songName.innerText = songList[songIndex].name;
-            audio.src = songList[songIndex].source;
-        }
-
-        function playSong() {
-            playPause.src = pauseImg;
-            circleBig.classList.add("animate");
-            circleSm.classList.add("animate");
-
-            audio.play();
-        }
-
-        function pauseSong() {
-            playPause.src = playImg;
-            circleBig.classList.remove("animate");
-            circleSm.classList.remove("animate");
-
-            audio.pause();
-        }
-
-        function nextPlay() {
-            songIndex++;
-            if (songIndex > songList.length - 1) {
-                songIndex = 0;
-            }
-            loadMusic(songList[songIndex]);
-            playSong()
-        }
-
-        function backPlay() {
-            songIndex--;
-            if (songIndex < 0) {
-                songIndex = songList.length - 1;
-            }
-            loadMusic(songList[songIndex]);
-            playSong()
-        }
-
-        function playHandler() {
-            isPlaying = !isPlaying;
-            //console.log("Change: ",isPlaying)
-            isPlaying ? pauseSong() : playSong();
-        }
-
-
-        // player event
-        playPause.addEventListener("click", playHandler);
-        backward.addEventListener("click", backPlay);
-        forward.addEventListener("click", nextPlay);
-
-        createPlayList();
+        loadMusic();
     }
+
+    function loadMusic() {
+        selectedSong = songList[songIndex];
+    }
+
+    function playSong() {
+        audio.play();
+    }
+
+    function pauseSong() {
+        playPause.src = playImg;
+        circleBig.classList.remove("animate");
+        circleSm.classList.remove("animate");
+
+        audio.pause();
+    }
+
+    function nextPlay() {
+        songIndex = songIndex + 1;
+        if (songIndex > songList.length - 1) {
+            songIndex = 0;
+        }
+
+        loadMusic();
+        playSong()
+    }
+
+    function backPlay() {
+        songIndex = songIndex - 1;
+        if (songIndex < 0) {
+            songIndex = songList.length - 1;
+        }
+        loadMusic();
+        playSong()
+    }
+
+    function playHandler() {
+        isPlaying = !isPlaying;
+        isPlaying ? pauseSong() : playSong();
+    }
+
+    $: console.log(songIndex, selectedSong)
 </script>
 
 <section id="home">
@@ -129,21 +107,30 @@
             <hr class="hor">
             <div id="musicbox" class="musicbox">
                 <h2>CEF Playlist</h2>
+                <ul>
+                    {#each songList as song, index}
+                        <li><h3 class="m-0 {index === songIndex ? 'font-bold' : ''}">{song.name}</h3></li>
+                    {/each}
+                </ul>
             </div>
         </div>
 
         <div class="playbox">
             <div class="controller">
                 <div id="circle-bg" class="circle">
-                    <div id="circle-sm" class="circle2"><img id="cover" src={playlist[0].cover} class="fluid-img" alt="cover"></div>
+                    <div id="circle-sm" class="circle2"><img id="cover" src={selectedSong?.cover} class="fluid-img"
+                                                             alt="cover"></div>
                 </div>
                 <div class="songs">
-                    <h2 id="song-name">{playlist[0]?.name}</h2>
+                    <h2 id="song-name">{selectedSong?.name}</h2>
                     <div class="controls grid grid-cols-3 mx-auto inset-x-0">
-                        <audio id="audio" src={playlist[0]?.source} autoplay></audio>
-                        <img id="backward" class="media-btn" src="/assets/backward-button.png" alt="backward">
-                        <img id="play-stop" class="media-btn" alt="play" src="/assets/play.svg">
-                        <img id="forward" class="media-btn" src="/assets/fast-forward.png" alt="forward">
+                        <audio id="audio" src={selectedSong?.source} autoplay></audio>
+                        <img id="backward" on:click={() => backPlay()} class="media-btn"
+                             src="/assets/backward-button.png" alt="backward">
+                        <img id="play-stop" on:click={() => playHandler()} class="media-btn" alt="play"
+                             src="/assets/play.svg">
+                        <img id="forward" on:click={() => nextPlay()} class="media-btn" src="/assets/fast-forward.png"
+                             alt="forward">
                     </div>
                 </div>
             </div>
