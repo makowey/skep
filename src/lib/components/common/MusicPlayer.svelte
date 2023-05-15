@@ -94,8 +94,6 @@
         isPlaying = !isPlaying;
         isPlaying ? pauseSong() : playSong();
     }
-
-    $: console.log(songIndex, selectedSong)
 </script>
 
 <section id="home">
@@ -109,7 +107,13 @@
                 <h2>CEF Playlist</h2>
                 <ul>
                     {#each songList as song, index}
-                        <li><h3 class="m-0 {index === songIndex ? 'font-bold' : ''}">{song.name}</h3></li>
+                        <li>
+                            <h3 class="cursor-pointer -p-1"
+                                class:italic={song.name === selectedSong?.name}
+                                on:click={() => {songIndex = index; loadMusic(); playSong();}}>
+                                {song.name}
+                            </h3>
+                        </li>
                     {/each}
                 </ul>
             </div>
