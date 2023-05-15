@@ -16,7 +16,7 @@
     const playImg = "/assets/play.svg";
     const pauseImg = "/assets/pause.svg";
 
-    let isPlaying = false;
+    let isPlaying = true;
 
     let songName;
     let audio;
@@ -108,8 +108,9 @@
                 <ul>
                     {#each songList as song, index}
                         <li>
-                            <h3 class="cursor-pointer -p-1"
+                            <h3 class="cursor-pointer -p-1 hover:bg-accent/100"
                                 class:italic={song.name === selectedSong?.name}
+                                class:font-bold={song.name === selectedSong?.name}
                                 on:click={() => {songIndex = index; loadMusic(); playSong();}}>
                                 {song.name} - <span class:text-xs={true}>{song?.artist}</span>
                             </h3>
@@ -127,7 +128,8 @@
                 </div>
                 <div class="songs">
                     <h2 id="song-name">{selectedSong?.name}</h2>
-                    <div class="controls grid grid-cols-3 mx-auto inset-x-0">
+                    <h5 class="text-xs">{selectedSong?.artist}</h5>
+                    <div class="controls grid grid-cols-3 mx-auto inset-x-0 mt-10">
                         <audio id="audio" src={selectedSong?.source} autoplay></audio>
                         <img id="backward" on:click={() => backPlay()} class="media-btn"
                              src="/assets/backward-button.png" alt="backward">
@@ -155,36 +157,10 @@
         --white-color: #ffffff;
     }
 
-    body {
-        font-family: 'Josefin Sans', sans-serif;
-        width: 100%;
-        background-image: linear-gradient(
-                to right bottom,
-                #118ab2,
-                #0e92b9,
-                #0b99c1,
-                #07a1c8,
-                #03a9cf,
-                #37b0d8,
-                #51b8e1,
-                #66bfe9,
-                #8cc7f2,
-                #accff8,
-                #c7d8fc,
-                #dee2ff
-        );
-    }
-
     .container {
         max-width: 1200px;
         margin: auto;
         padding: 0 1rem;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        font-weight: 300;
-        color: var(--white-color);
-        margin: 1rem 0 1rem 0;
     }
 
     .heading {
@@ -245,18 +221,6 @@
     ul li {
         list-style: none;
         margin: 0.5rem;
-    }
-
-    ul li a {
-        text-decoration: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        color: var(--white-color);
-        transition: all 300ms;
-    }
-
-    ul li a:hover {
-        background-color: #c7d8fc8c;
     }
 
     .controller {
