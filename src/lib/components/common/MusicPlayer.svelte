@@ -1,9 +1,8 @@
 <script>
     import {browser} from "$app/environment";
-    import playlist from "$lib/playlist.js";
     import {navigating} from "$app/stores";
 
-    let songList = [];
+    export let songList = [];
     let songIndex = 0;
     let selectedSong = {};
     let playPause;
@@ -24,11 +23,12 @@
     let coverArt;
     let musicbox;
 
-    songList = playlist.map(song => {
+    songList = songList.map(song => {
         return {
             name: song.name,
             source: song.url,
-            cover: song.cover
+            cover: song.cover,
+            artist: song.artist
         }
     });
 
@@ -99,7 +99,7 @@
 <section id="home">
     <div class="container">
         <div class="collection">
-            <h1 class="heading">Zen Lofi Chillhop</h1>
+            <h1 class="heading">Cantari AMEC</h1>
             <p class="lead">Chill-out is a loosely defined form of popular music characterized by slow tempos and
                 relaxed moods. Identified as a modern type of easy listening.</p>
             <hr class="hor">
@@ -111,7 +111,7 @@
                             <h3 class="cursor-pointer -p-1"
                                 class:italic={song.name === selectedSong?.name}
                                 on:click={() => {songIndex = index; loadMusic(); playSong();}}>
-                                {song.name}
+                                {song.name} - <span class:text-xs={true}>{song?.artist}</span>
                             </h3>
                         </li>
                     {/each}

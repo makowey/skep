@@ -21,5 +21,5 @@
 </script>
 
 <input type="text" bind:value={selection} class="m-2 w-96 p-1" placeholder="search for a song..."/>
-<MusicPlayer/>
+<MusicPlayer songList={songs}/>
 <p class="text-xs hidden ">{message}</p>
