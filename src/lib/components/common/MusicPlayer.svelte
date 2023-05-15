@@ -38,9 +38,6 @@
         backward = document.getElementById("backward");
         forward = document.getElementById("forward");
 
-        // default controls
-        playPause.src = pauseImg;
-
         // record player animation
         circleBig = document.getElementById("circle-bg");
         circleSm = document.getElementById("circle-sm");
@@ -51,6 +48,7 @@
         coverArt = document.getElementById("cover");
         musicbox = document.getElementById("musicbox");
 
+        playPause.src = pauseImg;
         // preloaded song
         loadMusic();
     }
@@ -64,10 +62,6 @@
     }
 
     function pauseSong() {
-        playPause.src = playImg;
-        circleBig.classList.remove("animate");
-        circleSm.classList.remove("animate");
-
         audio.pause();
     }
 
@@ -92,7 +86,8 @@
 
     function playHandler() {
         isPlaying = !isPlaying;
-        isPlaying ? pauseSong() : playSong();
+        playPause.src = !isPlaying ? playImg : pauseImg;
+        return isPlaying ? playSong() : pauseSong();
     }
 </script>
 
@@ -110,7 +105,7 @@
                         <li>
                             <h3 class="cursor-pointer -p-1 hover:bg-accent/100"
                                 class:italic={song.name === selectedSong?.name}
-                                class:font-bold={song.name === selectedSong?.name}
+                                class:text-2xl={song.name === selectedSong?.name}
                                 on:click={() => {songIndex = index; loadMusic(); playSong();}}>
                                 {song.name} - <span class:text-xs={true}>{song?.artist}</span>
                             </h3>
@@ -122,9 +117,10 @@
 
         <div class="playbox">
             <div class="controller">
-                <div id="circle-bg" class="circle">
-                    <div id="circle-sm" class="circle2"><img id="cover" src={selectedSong?.cover} class="fluid-img"
-                                                             alt="cover"></div>
+                <div id="circle-bg" class="circle" class:animate={isPlaying}>
+                    <div id="circle-sm" class="circle2" class:animate={isPlaying}>
+                        <img id="cover" src={selectedSong?.cover} class="fluid-img" alt="cover">
+                    </div>
                 </div>
                 <div class="songs">
                     <h2 id="song-name">{selectedSong?.name}</h2>
