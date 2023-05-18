@@ -16,7 +16,7 @@
     const playImg = "/assets/play.svg";
     const pauseImg = "/assets/pause.svg";
 
-    let isPlaying = true;
+    let isPlaying = false;
 
     let songName;
     let audio;
@@ -35,6 +35,8 @@
     $: if (!$navigating && browser) {
         // media controllers
         playPause = document.getElementById("play-stop");
+        playPause.src = playImg;
+
         backward = document.getElementById("backward");
         forward = document.getElementById("forward");
 
@@ -126,7 +128,7 @@
                     <h2 id="song-name">{selectedSong?.name}</h2>
                     <h5 class="text-xs">{selectedSong?.artist}</h5>
                     <div class="controls grid grid-cols-3 mx-auto inset-x-0 mt-10">
-                        <audio id="audio" src={selectedSong?.source} autoplay></audio>
+                        <audio id="audio" src={selectedSong?.source} ></audio>
                         <img id="backward" on:click={() => backPlay()} class="media-btn"
                              src="/assets/backward-button.png" alt="backward">
                         <img id="play-stop" on:click={() => playHandler()} class="media-btn" alt="play"
