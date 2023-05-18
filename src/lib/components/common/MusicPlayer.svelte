@@ -9,6 +9,7 @@
     let playPause;
     let backward;
     let forward;
+    let volume = 40;
 
     let circleBig;
     let circleSm;
@@ -34,6 +35,7 @@
     }
 
     function playSong() {
+        audio.volume = volume / 100;
         audio.play();
     }
 
@@ -129,6 +131,7 @@
                         <img bind:this={forward} on:click={() => nextPlay()} class="media-btn"
                              src="/assets/fast-forward.png"
                              alt="forward">
+                        <input type="range" min="0" max="100" bind:value={volume} class="range range-xs range-primary mt-2" on:change={() => audio.volume = volume / 100}/>
                     </div>
                 </div>
             </div>
