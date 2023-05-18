@@ -96,7 +96,7 @@
                     <ul class="overflow-y-scroll h-36">
                         {#each songList as song, index}
                             <li>
-                                <h3 class="cursor-pointer hover:bg-accent/100 text-xs -p-2"
+                                <h3 class="cursor-pointer hover:bg-accent/100 text-xs -p-2 -mt-1"
                                     class:italic={song.name === selectedSong?.name}
                                     class:text-red-800={song.name === selectedSong?.name}
                                     class:animate-pulse={song.name === selectedSong?.name}
@@ -110,7 +110,7 @@
                 </div>
             </div>
 
-            <div class="m-auto">
+            <div class="m-auto -mt-3">
                 <div bind:this={circleBig} class="circle" class:animate={isPlaying}>
                     <div bind:this={circleSm} class="circle2" class:animate={isPlaying}>
                         <img bind:this={coverArt} src={selectedSong?.cover} class="fluid-img" alt="cover">
@@ -118,9 +118,9 @@
                 </div>
 
                 <div class="songs">
-                    <h2 bind:this={songName} class="text-center">{selectedSong?.name}</h2>
+                    <h2 bind:this={songName} class="text-center -mt-8">{selectedSong?.name}</h2>
                     <h5 class="text-xs text-center">{selectedSong?.artist}</h5>
-                    <div class="controls grid grid-cols-3 ml-10 inset-x-0 mt-3 w-full">
+                    <div class="controls grid grid-cols-3 ml-10 w-full mt-2">
                         <audio bind:this={audio} src={selectedSong?.source}></audio>
                         <img bind:this={backward} on:click={() => backPlay()} class="media-btn"
                              src="/assets/backward-button.png" alt="backward">
@@ -146,14 +146,9 @@
         margin: 0.5rem;
     }
 
-    .controller {
-        max-width: 400px;
-        min-height: 500px;
-    }
-
     .circle {
-        width: 250px;
-        height: 250px;
+        width: 120px;
+        height: 120px;
         background-color: #222427;
         border-radius: 50%;
         margin: 2rem auto;
@@ -164,8 +159,8 @@
     }
 
     .circle2 {
-        width: 180px;
-        height: 180px;
+        width: 80px;
+        height: 80px;
         background-color: #252629;
         border-radius: 50%;
         border: 3px solid #282529;
