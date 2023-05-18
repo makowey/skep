@@ -71,7 +71,7 @@
         songList = playlist.filter(song => song?.name?.toLowerCase().indexOf(selection.toLowerCase()) > -1 ||
             song?.artist?.toLowerCase().indexOf(selection.toLowerCase()) > -1);
         if (songList.length === 0) {
-            songList = [...playlist];
+            songList = [];
         }
     } else {
         songList = [...playlist];
@@ -89,48 +89,46 @@
 <section id="home">
     <div class="container">
         <div class="playbox p-2 m-2 bg-accent-content/10">
-            <div class="controller flex flex-1 m-1">
-                <div class="playlist">
-                    <input type="text" bind:value={selection} class="m-1 w-96 p-1 border-1"
-                           placeholder="search for a song..."/>
-                    <div id="musicbox" bind:this={musicbox} class="musicbox h-full">
-                        <ul>
-                            {#each songList as song, index}
-                                <li>
-                                    <h3 class="cursor-pointer hover:bg-accent/100 text-xs -p-2"
-                                        class:italic={song.name === selectedSong?.name}
-                                        class:text-red-800={song.name === selectedSong?.name}
-                                        class:animate-pulse={song.name === selectedSong?.name}
+            <div class="playlist">
+                <input type="text" bind:value={selection} class="m-2 w-[calc(90%)] border-1"
+                       placeholder="search for a song..."/>
+                <div id="musicbox" bind:this={musicbox} class="musicbox h-full">
+                    <ul class="overflow-y-scroll h-36">
+                        {#each songList as song, index}
+                            <li>
+                                <h3 class="cursor-pointer hover:bg-accent/100 text-xs -p-2"
+                                    class:italic={song.name === selectedSong?.name}
+                                    class:text-red-800={song.name === selectedSong?.name}
+                                    class:animate-pulse={song.name === selectedSong?.name}
 
-                                        on:click={() => playAnother(index)}>
-                                        {song.name} - <span class:text-xs={true}>{song?.artist}</span>
-                                    </h3>
-                                </li>
-                            {/each}
-                        </ul>
+                                    on:click={() => playAnother(index)}>
+                                    {song.name} - <span class:text-xs={true}>{song?.artist}</span>
+                                </h3>
+                            </li>
+                        {/each}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="m-auto">
+                <div bind:this={circleBig} class="circle" class:animate={isPlaying}>
+                    <div bind:this={circleSm} class="circle2" class:animate={isPlaying}>
+                        <img bind:this={coverArt} src={selectedSong?.cover} class="fluid-img" alt="cover">
                     </div>
                 </div>
 
-                <div class="m-auto ml-16 -mt-3">
-                    <div bind:this={circleBig} class="circle" class:animate={isPlaying}>
-                        <div bind:this={circleSm} class="circle2" class:animate={isPlaying}>
-                            <img bind:this={coverArt} src={selectedSong?.cover} class="fluid-img" alt="cover">
-                        </div>
-                    </div>
-
-                    <div class="songs">
-                        <h2 bind:this={songName} class="text-center">{selectedSong?.name}</h2>
-                        <h5 class="text-xs text-center">{selectedSong?.artist}</h5>
-                        <div class="controls grid grid-cols-3 mx-auto inset-x-0 mt-3 w-full">
-                            <audio bind:this={audio} src={selectedSong?.source}></audio>
-                            <img bind:this={backward} on:click={() => backPlay()} class="media-btn"
-                                 src="/assets/backward-button.png" alt="backward">
-                            <img bind:this={playPause} on:click={() => playHandler()} class="media-btn" alt="play"
-                                 src="/assets/play.svg">
-                            <img bind:this={forward} on:click={() => nextPlay()} class="media-btn"
-                                 src="/assets/fast-forward.png"
-                                 alt="forward">
-                        </div>
+                <div class="songs">
+                    <h2 bind:this={songName} class="text-center">{selectedSong?.name}</h2>
+                    <h5 class="text-xs text-center">{selectedSong?.artist}</h5>
+                    <div class="controls grid grid-cols-3 ml-10 inset-x-0 mt-3 w-full">
+                        <audio bind:this={audio} src={selectedSong?.source}></audio>
+                        <img bind:this={backward} on:click={() => backPlay()} class="media-btn"
+                             src="/assets/backward-button.png" alt="backward">
+                        <img bind:this={playPause} on:click={() => playHandler()} class="media-btn" alt="play"
+                             src="/assets/play.svg">
+                        <img bind:this={forward} on:click={() => nextPlay()} class="media-btn"
+                             src="/assets/fast-forward.png"
+                             alt="forward">
                     </div>
                 </div>
             </div>
